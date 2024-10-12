@@ -1,0 +1,16 @@
+{
+  "name": "nl.renzcom",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "postcss tailwind.css -o src/css/style.css"
+  },
+  "author": "RenzCom",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.45",
+    "tailwindcss": "^3.4.11"
+  }
+}
