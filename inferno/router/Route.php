@@ -5,13 +5,15 @@ class Route {
     private $path;
     private $viewOrController; // This can be a view file or a controller class
     private $viewDir;
+    private $function;
     private static $routes = [];
     private static $requestHandled = false;
 
-    public function __construct($path, $viewOrController, $viewDir) {
+    public function __construct($path, $viewOrController, $viewDir, $function = null) {
         $this->path = $path;
         $this->viewOrController = $viewOrController;
         $this->viewDir = $viewDir;
+        $this->function = $function;
         self::$routes[] = $this;
     }
 
@@ -19,8 +21,8 @@ class Route {
         return new Route($path, $view . '.php', 'views/');
     }
 
-    public static function post($path, $controllerClass) {
-        return new Route($path, $controllerClass, 'controllers/');
+    public static function post($path, $controllerClass, $function) {
+        return new Route($path, $controllerClass, 'controllers/', $function);
     }
 
     public static function css() {
@@ -40,9 +42,13 @@ class Route {
                 header('Content-Type: text/javascript');
                 readfile($this->viewDir . $this->viewOrController);
             } else {
-                if (class_exists($this->viewOrController)) {
+                if ($this->function) {
+                    $controllerInstance = new $this->viewOrController();
+                    $controllerInstance->{$this->function}();
+                } else if (class_exists($this->viewOrController)) {
                     $controllerInstance = new $this->viewOrController(); 
                     if (method_exists($controllerInstance, 'handle')) {
+                        echo 'method exists';
                         return $controllerInstance->handle();
                     }
                 } else {
