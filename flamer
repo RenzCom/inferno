@@ -1,0 +1,42 @@
+#!/usr/bin/php
+<?php
+
+if ($argc < 2) {
+    echo "Usage: ./flamer COMMAND\n";
+    exit(1);
+}
+
+$command = $argv[1];
+
+switch ($command) {
+    case 'view':
+        if ($argc < 3) {
+            echo "Usage: ./flamer view FILENAME\n";
+            exit(1);
+        }
+        $name = $argv[2];
+
+        $dir = dirname($name);
+        if (!is_dir("views/" . $dir)) {
+            mkdir("views/" . $dir, 0777, true);
+        }
+
+        echo "Creating new file...\n";
+        $filePath = "views/" . $name . ".php";
+        $file = fopen($filePath, "w");
+        
+        if ($file) {
+            fwrite($file, "<div>\n  Hello, Flamer!\n</div>");
+            fclose($file);
+            echo "File created at: $filePath\n";
+        } else {
+            echo "Error creating file at: $filePath\n";
+            exit(1);
+        }
+        break;
+
+    default:
+        echo "Unknown command: $command\n";
+        echo "Available commands: view\n";
+        exit(1);
+}
