@@ -34,9 +34,40 @@ switch ($command) {
             exit(1);
         }
         break;
+    
+    case 'controller':
+        if ($argc < 3) {
+            echo "Usage: ./flamer controller CONTROLLER_NAME\n";
+            exit(1);
+        }
+        $name = $argv[2];
+
+        $dir = dirname($name);
+        if (!is_dir("controllers/" . $dir)) {
+            mkdir("controllers/" . $dir, 0777, true);
+        }
+
+        echo "Creating new file...\n";
+        $filePath = "controllers/" . $name . ".php";
+        $file = fopen($filePath, "w");
+        
+        if ($file) {
+            fwrite($file, "<?php\n\n");
+            fwrite($file, "class $name extends Controller {\n\n");
+            fwrite($file, "  public function index() {\n");
+            fwrite($file, "    // Your code here\n");
+            fwrite($file, "  }\n\n");
+            fwrite($file, "}\n");
+            fclose($file);
+            echo "File created at: $filePath\n";
+        } else {
+            echo "Error creating file at: $filePath\n";
+            exit(1);
+        }
+        break;
 
     default:
-        echo "Unknown command: $command\n";
-        echo "Available commands: view\n";
+        echo "\e[31mUnknown command: $command\n";
+        echo "\e[39mAvailable commands:\e[32m\nview\ncontroller\n\e[39m";
         exit(1);
 }

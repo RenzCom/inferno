@@ -1,3 +1,0 @@
-<div>
-  Hello, Flamer!
-</div>
