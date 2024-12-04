@@ -43,12 +43,12 @@ switch ($command) {
         $name = $argv[2];
 
         $dir = dirname($name);
-        if (!is_dir("controllers/" . $dir)) {
-            mkdir("controllers/" . $dir, 0777, true);
+        if (!is_dir("app/controllers/" . $dir)) {
+            mkdir("app/controllers/" . $dir, 0777, true);
         }
 
         echo "Creating new file...\n";
-        $filePath = "controllers/" . $name . ".php";
+        $filePath = "app/controllers/" . $name . ".php";
         $file = fopen($filePath, "w");
         
         if ($file) {

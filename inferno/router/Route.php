@@ -22,7 +22,7 @@ class Route {
     }
 
     public static function post($path, $controllerClass, $function) {
-        return new Route($path, $controllerClass, 'controllers/', $function);
+        return new Route($path, $controllerClass, 'app/controllers/', $function);
     }
 
     public static function css() {

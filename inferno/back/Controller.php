@@ -7,7 +7,7 @@ class Controller {
 
     public function __construct() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
-            echo 'Data is present from controller ';
+            // echo 'Data is present from controller ';
         } else {
             $this->ErrorPage();
         }
