@@ -8,6 +8,14 @@ if ($argc < 2) {
 
 $command = $argv[1];
 
+$commandList = [
+    ['view', 'Create a new view file'],
+    ['controller', 'Create a new controller file'],
+    ['trait', 'Create a new trait file'],
+    ['abstract', 'Create a new abstract class file'],
+    ['interface', 'Create a new interface file'],
+];
+
 switch ($command) {
     case 'view':
         if ($argc < 3) {
@@ -65,9 +73,96 @@ switch ($command) {
             exit(1);
         }
         break;
+    case 'trait':
+        if ($argc < 3) {
+            echo "Usage: ./flamer trait TRAIT_NAME\n";
+            exit(1);
+        }
+        $name = $argv[2];
+
+        $dir = dirname($name);
+        if (!is_dir("app/traits/" . $dir)) {
+            mkdir("app/traits/" . $dir, 0777, true);
+        }
+
+        echo "Creating new file...\n";
+        $filePath = "app/traits/" . $name . ".php";
+        $file = fopen($filePath, "w");
+        
+        if ($file) {
+            fwrite($file, "<?php\n\n");
+            fwrite($file, "trait $name {\n\n");
+            fwrite($file, "  // Your code here\n\n");
+            fwrite($file, "}\n");
+            fclose($file);
+            echo "File created at: $filePath\n";
+        } else {
+            echo "Error creating file at: $filePath\n";
+            exit(1);
+        }
+        break;
+    case 'abstract':
+        if ($argc < 3) {
+            echo "Usage: ./flamer abstract ABSTRACT_NAME\n";
+            exit(1);
+        }
+        $name = $argv[2];
+
+        $dir = dirname($name);
+        if (!is_dir("app/abstracts/" . $dir)) {
+            mkdir("app/abstracts/" . $dir, 0777, true);
+        }
+
+        echo "Creating new file...\n";
+        $filePath = "app/abstracts/" . $name . ".php";
+        $file = fopen($filePath, "w");
+        
+        if ($file) {
+            fwrite($file, "<?php\n\n");
+            fwrite($file, "abstract class $name {\n\n");
+            fwrite($file, "  // Your code here\n\n");
+            fwrite($file, "}\n");
+            fclose($file);
+            echo "File created at: $filePath\n";
+        } else {
+            echo "Error creating file at: $filePath\n";
+            exit(1);
+        }
+        break;
+    case 'interface':
+        if ($argc < 3) {
+            echo "Usage: ./flamer interface INTERFACE_NAME\n";
+            exit(1);
+        }
+        $name = $argv[2];
+
+        $dir = dirname($name);
+        if (!is_dir("app/interfaces/" . $dir)) {
+            mkdir("app/interfaces/" . $dir, 0777, true);
+        }
+
+        echo "Creating new file...\n";
+        $filePath = "app/interfaces/" . $name . ".php";
+        $file = fopen($filePath, "w");
+        
+        if ($file) {
+            fwrite($file, "<?php\n\n");
+            fwrite($file, "interface $name {\n\n");
+            fwrite($file, "  // Your code here\n\n");
+            fwrite($file, "}\n");
+            fclose($file);
+            echo "File created at: $filePath\n";
+        } else {
+            echo "Error creating file at: $filePath\n";
+            exit(1);
+        }
+        break;
 
     default:
         echo "\e[31mUnknown command: $command\n";
-        echo "\e[39mAvailable commands:\e[32m\nview\ncontroller\n\e[39m";
+        echo "\e[39mAvailable commands:\n";
+        foreach ($commandList as $cmd) {
+            echo "  - \e[32m{$cmd[0]}\e[39m: {$cmd[1]}\n";
+        }
         exit(1);
 }
