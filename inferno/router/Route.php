@@ -55,7 +55,8 @@ class Route {
         if ($request === $this->path) {
             if (!in_array($method, $this->methods)) {
                 http_response_code(405);
-                return false;
+                echo '405 | Method not allowed';
+                exit();
             }
 
             if ($this->viewDir === 'src/css/') {
