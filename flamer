@@ -10,6 +10,7 @@ $command = $argv[1];
 
 $commandList = [
     ['view', 'Create a new view file'],
+    ['component', 'Create a new view component file'],
     ['controller', 'Create a new controller file'],
     ['trait', 'Create a new trait file'],
     ['abstract', 'Create a new abstract class file'],
@@ -157,7 +158,31 @@ switch ($command) {
             exit(1);
         }
         break;
+    case 'component':
+        if ($argc < 3) {
+            echo "Usage: ./flamer component COMPONENT_NAME\n";
+            exit(1);
+        }
+        $name = $argv[2];
 
+        $dir = dirname($name);
+        if (!is_dir("views/components/" . $dir)) {
+            mkdir("views/components/" . $dir, 0777, true);
+        }
+
+        echo "Creating new file...\n";
+        $filePath = "views/components/" . $name . ".php";
+        $file = fopen($filePath, "w");
+        
+        if ($file) {
+            fwrite($file, "<div>\n  Hello, Flamer!\n</div>");
+            fclose($file);
+            echo "File created at: $filePath\n";
+        } else {
+            echo "Error creating file at: $filePath\n";
+            exit(1);
+        }
+        break;
     default:
         echo "\e[31mUnknown command: $command\n";
         echo "\e[39mAvailable commands:\n";
